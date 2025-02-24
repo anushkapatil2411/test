@@ -53,38 +53,14 @@
                     </button>
                 </div>
                 <div class="sidebar">
-                    <a href="#">
-                        <span class="material-symbols-sharp">grid_view</span>
-                        <h3>Dashboard</h3>
-                    </a>
-                    <a href="#" class="active">
-                        <span class="material-symbols-sharp">person_outline</span>
-                        <h3>Profile</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">insights</span>
-                        <h3>Statistics</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">mail_outline</span>
-                        <h3>Tests</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">receipt_long</span>
-                        <h3>Test History</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">report_gmailerrorred</span>
-                        <h3>Results</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">settings</span>
-                        <h3>Settings</h3>
-                    </a>
-                    <a href="#">
-                        <span class="material-symbols-sharp">logout</span>
-                        <h3>Logout</h3>
-                    </a>
+                    <a href="#"><span class="material-symbols-sharp">grid_view</span><h3>Dashboard</h3></a>
+                    <a href="#" class="active"><span class="material-symbols-sharp">person_outline</span><h3>Profile</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">insights</span><h3>Statistics</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">mail_outline</span><h3>Tests</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">receipt_long</span><h3>Test History</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">report_gmailerrorred</span><h3>Results</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">settings</span><h3>Settings</h3></a>
+                    <a href="#"><span class="material-symbols-sharp">logout</span><h3>Logout</h3></a>
                 </div>
             </aside>
 
@@ -108,20 +84,28 @@
                 </div>
 
                 <div class="available-tests-container hidden">
-                  <h3>Available Tests</h3>
-                  <table>
-                      <thead>
-                          <tr>
-                              <th>Serial No.</th>
-                              <th>Topic</th>
-                              <th>No. of Questions</th>
-                          </tr>
-                      </thead>
-                      <tbody id="test-list"></tbody>
-                  </table>
-                  <button id="submit-tests">Submit</button>
-              </div>
-              
+                    <h3>Available Tests</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Serial No.</th>
+                                <th>Topic</th>
+                                <th>No. of Questions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="test-list">
+                            <tr>
+                                <td><input type="checkbox" class="test-checkbox"></td>
+                                <td>1</td>
+                                <td>Sample Topic</td>
+                                <td><input type="number" class="question-input" min="1" placeholder="Enter no. of questions"></td>
+                            </tr>
+                        </tbody>
+                    </table><br/>
+                    <p id="question-limit-text">Select up to 20 Questions</p>
+                    <button id="submit-tests" disabled>Create</button>
+                </div>
 
             </div> <!-- End of Test Section -->
 
