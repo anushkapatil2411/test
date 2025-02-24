@@ -1,20 +1,20 @@
-const sideMenu = document.querySelector('aside');
-const menuBtn = document.querySelector('#menu_bar');
-const closeBtn = document.querySelector('#close_btn');
-const themeToggler = document.querySelector('.theme-toggler');
+const sideMenu = document.querySelector("aside");
+const menuBtn = document.querySelector("#menu_bar");
+const closeBtn = document.querySelector("#close_btn");
+const themeToggler = document.querySelector(".theme-toggler");
 
-menuBtn.addEventListener('click', () => {
+menuBtn.addEventListener("click", () => {
     sideMenu.style.display = "block";
 });
 
-closeBtn.addEventListener('click', () => {
+closeBtn.addEventListener("click", () => {
     sideMenu.style.display = "none";
 });
 
-themeToggler.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme-variables');
-    themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
-    themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
+themeToggler.addEventListener("click", () => {
+    document.body.classList.toggle("dark-theme-variables");
+    themeToggler.querySelector("span:nth-child(1)").classList.toggle("active");
+    themeToggler.querySelector("span:nth-child(2)").classList.toggle("active");
 });
 
 // SUBJECT CHANGE HANDLER
@@ -24,16 +24,16 @@ document.getElementById("subject").addEventListener("change", function () {
 
     const topics = {
         math: {
-            "algebra": "Algebraic Expressions",
-            "cubeRoots": "Cubes and Cube Roots",
-            "inverseProportion": "Direct and Inverse Proportion",
-            "exponents": "Exponents and Powers",
-            "factorization": "Factorizations",
-            "linear": "Linear Equation in One Variable",
-            "mensuration": "Mensuration",
-            "playingWithNose": "Playing with Nose",
-            "rationalNumbers": "Rational Numbers",
-            "squareroot": "Squares and Square Roots"
+            algebra: "Algebraic Expressions",
+            cubeRoots: "Cubes and Cube Roots",
+            inverseProportion: "Direct and Inverse Proportion",
+            exponents: "Exponents and Powers",
+            factorization: "Factorizations",
+            linear: "Linear Equation in One Variable",
+            mensuration: "Mensuration",
+            playingWithNose: "Playing with Nose",
+            rationalNumbers: "Rational Numbers",
+            squareroot: "Squares and Square Roots"
         }
     };
 
@@ -42,7 +42,7 @@ document.getElementById("subject").addEventListener("change", function () {
         topicSelect.disabled = false;
         for (let key in topics[selectedSubject]) {
             let option = document.createElement("option");
-            option.value = key; // Use key instead of formatted value
+            option.value = key;
             option.textContent = topics[selectedSubject][key];
             topicSelect.appendChild(option);
         }
@@ -56,8 +56,8 @@ document.getElementById("topic").addEventListener("change", function () {
     const testList = document.getElementById("test-list");
     const testContainer = document.querySelector(".available-tests-container");
 
-    testList.innerHTML = ""; // Clear previous entries
-    testContainer.classList.add("hidden"); // Hide table initially
+    testList.innerHTML = ""; 
+    testContainer.classList.add("hidden"); 
 
     const tests = {
         algebra: [
@@ -114,32 +114,65 @@ document.getElementById("topic").addEventListener("change", function () {
 
     const selectedTopic = this.value;
     if (tests[selectedTopic]) {
-        testContainer.classList.remove("hidden"); // Show table when chapter is selected
+        testContainer.classList.add("active"); 
 
-        tests[selectedTopic].forEach(test => {
+        tests[selectedTopic].forEach((test) => {
             let row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${test.serial}</td>
-                <td>${test.name}</td>
-                <td><input type="number" min="1" class="question-input" placeholder="Enter no. of questions"></td>
-            `;
+
+            // Create a checkbox cell
+            let checkboxCell = document.createElement("td");
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.className = "test-checkbox";
+            checkbox.addEventListener("change", updateButtonState); 
+            checkboxCell.appendChild(checkbox);
+            row.appendChild(checkboxCell);
+
+            // Create Serial No. cell
+            let serialCell = document.createElement("td");
+            serialCell.textContent = test.serial;
+            row.appendChild(serialCell);
+
+            // Create Topic Name cell
+            let topicCell = document.createElement("td");
+            topicCell.textContent = test.name;
+            row.appendChild(topicCell);
+
+            // Create Number of Questions input cell
+            let questionCell = document.createElement("td");
+            let questionInput = document.createElement("input");
+            questionInput.type = "number";
+            questionInput.min = "1";
+            questionInput.className = "question-input";
+            questionInput.placeholder = "No. of questions";
+            questionInput.addEventListener("input", updateButtonState);
+            questionCell.appendChild(questionInput);
+            row.appendChild(questionCell);
+
+            // Append row to table body
             testList.appendChild(row);
         });
     }
 });
 
-// HANDLE SUBMIT BUTTON
-document.getElementById("submit-tests").addEventListener("click", function () {
-    const selectedQuestions = [];
-    document.querySelectorAll(".question-input").forEach(input => {
-        if (input.value) {
-            selectedQuestions.push(`Topic: ${input.closest("tr").children[1].textContent}, Questions: ${input.value}`);
+function updateButtonState() {
+    const checkboxes = document.querySelectorAll(".test-checkbox");
+    const questionInputs = document.querySelectorAll(".question-input");
+    const createButton = document.getElementById("submit-tests");
+
+    let totalQuestions = 0;
+    let disableButton = false;
+
+    checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+            let questionCount = parseInt(questionInputs[index].value) || 0;
+            totalQuestions += questionCount;
+
+            if (questionCount > 20) {
+                disableButton = true;
+            }
         }
     });
 
-    if (selectedQuestions.length > 0) {
-        alert("Selected Topics and No. of Questions:\n" + selectedQuestions.join("\n"));
-    } else {
-        alert("Please enter at least one question count.");
-    }
-});
+    createButton.disabled = disableButton || totalQuestions > 20;
+}
